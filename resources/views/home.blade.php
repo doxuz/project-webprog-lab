@@ -15,30 +15,32 @@
 
                 <table class="table">
                     <tr>
-                        <th> Photo</th>
-                        <th> Name</th>
-                        <th> Description</th>
-                        <th> Details</th>
-                        <th> Order</th>
+                        <th> Photo </th>
+                        <th> Name </th>
+                        <th> Description </th>
+                        <th> Details </th>
+                        <th> Order </th>
                     </tr>
 
                     @foreach($flowers as $flower)
-                        <tr>
-                            <td><img src="{{ $flower->flower_pic }}" width="150px" height="150px" alt="foto">  </td>
-                            <td> {{ $flower->name }} </td>
-                            <td> {{ $flower->description }} </td>
-                            <td>
-        {{--                        <a href="/member/edit/{{$m->member_id}}">--}}
-                                <a href="/">
-                                    <input type="submit" value="Details">
-                                </a>
-                            </td>
-                            <td>
-                                <a href="/">
-                                    <input type="submit" value="Order">
-                                </a>
-                            </td>
-                        </tr>
+                        @if($flower->stock > 0)
+                            <tr>
+                                <td><img src="{{ $flower->flower_pic }}" width="150px" height="150px" alt="foto">  </td>
+                                <td> {{ $flower->name }} </td>
+                                <td> {{ $flower->description }} </td>
+                                <td>
+                                    {{--                        <a href="/member/edit/{{$m->member_id}}">--}}
+                                    <a href="/detail/{{ $flower->id }}">
+                                        <input type="submit" value="Details">
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="/order/{{ $flower->id }}">
+                                        <input type="submit" value="Order">
+                                    </a>
+                                </td>
+                            </tr>
+                        @endif
                     @endforeach
 
                 </table>
