@@ -35,7 +35,7 @@
 
                     </table>
                     @isset($flower)
-                        <form method="get" action="{{ URL::to('/checkout/'.$flowers->first()->cart_id) }}">
+                        <form method="get" action="{{ URL::to('/checkout/'.$flowers[0]->cart_id) }}">
 
                             <div class="form-group d-flex justify-content-center">
                                 <label for="courier" class="pr-2">Courier </label>
@@ -49,7 +49,7 @@
 
                             <div class="form-inline my-2 my-lg-0 d-flex justify-content-center pt-3 pb-3">
                                 <label for="total_label" class="pr-2">Total Price </label>
-                                <label for="total_price" class="pr-2">Rp. {{ $flowers->first()->total_price }} </label>
+                                <label for="total_price" class="pr-2">Rp. {{ $flowers[0]->total_price }} </label>
                                 <input type="submit" value="Checkout" class="btn btn-success">
                             </div>
 

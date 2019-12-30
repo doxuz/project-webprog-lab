@@ -114,6 +114,7 @@ class CartsController extends Controller
         $user_id = Auth::user()->id;
         $cart = DB::table('carts')
             ->where('user_id','LIKE', $user_id)
+            ->select('id')
             ->get();
 
 //        If the user has no cart yet
@@ -123,33 +124,35 @@ class CartsController extends Controller
             $cart->courier_id = null;
             $cart->total_price = 0;
             $cart->save();
+
+            $cart_id = $cart->id;
+        } else {
+            $cart_id = $cart[0]->id;
         }
 
 //        Find user's flower
         $cart_item = DB::table('cart_items')
             ->where([
-                ['cart_id', '=', $cart->first()->id],
+                ['cart_id', '=', $cart_id],
                 ['flower_id', '=', $id]
-            ])->get();
-
-//        return 'cart->id = '.$cart->id.'|| cart->first()->id = '.$cart->first()->id;
-
-//        return $cart->first()->id;
+            ])->select('quantity')
+            ->get();
 
 //        If the flower that wanted to be added does not exist yet
         if ($cart_item == '[]') {
             $cart_item = new Cart_item();
-            $cart_item->cart_id = $cart->first()->id;
+            $cart_item->cart_id = $cart_id;
             $cart_item->flower_id = $id;
             $cart_item->quantity = $request->quantity;
             $cart_item->save();
 
         } else {
 //            If it exist update the quantity
-            $updated_quantity = $cart_item->first()->quantity + $request->quantity;
+            $cart_item_quantity = $cart_item[0]->quantity;
+            $updated_quantity = $cart_item_quantity + $request->quantity;
             DB::table('cart_items')
                 ->where([
-                    ['cart_id', '=', $cart->first()->id],
+                    ['cart_id', '=', $cart_id],
                     ['flower_id', '=', $id]
                 ])->update(['quantity' => $updated_quantity]);
         }
@@ -157,7 +160,7 @@ class CartsController extends Controller
 //        Calculate total price
         $total = DB::table('cart_items')
             ->join('flowers','cart_items.flower_id', '=', 'flowers.id')
-            ->where('cart_id','=', $cart->first()->id)
+            ->where('cart_id','=', $cart_id)
             ->sum(DB::raw('price * quantity'));
 
 //        Update total price
@@ -187,7 +190,7 @@ class CartsController extends Controller
             ->get();
 
 //        Update stock
-        $flower->stock += $stock->first()->quantity;
+        $flower->stock += $stock[0]->quantity;
         $flower->save();
 
         DB::table('cart_items')
@@ -202,15 +205,21 @@ class CartsController extends Controller
             ->where('user_id','=', Auth::user()->id)
             ->get();
 
-        $total = DB::table('cart_items')
-            ->join('flowers','cart_items.flower_id', '=', 'flowers.id')
-            ->where('cart_id','=', $cart->first()->cart_id)
-            ->sum(DB::raw('price * quantity'));
+        if ($cart != '[]') {
+            $total = DB::table('cart_items')
+                ->join('flowers', 'cart_items.flower_id', '=', 'flowers.id')
+                ->where('cart_id', '=', $cart[0]->cart_id)
+                ->sum(DB::raw('price * quantity'));
 
 //        Update total price
-        DB::table('carts')
-            ->where('user_id','LIKE', Auth::user()->id)
-            ->update(['total_price' => $total]);
+            DB::table('carts')
+                ->where('user_id','LIKE', Auth::user()->id)
+                ->update(['total_price' => $total]);
+        } else {
+            DB::table('carts')
+                ->where('user_id','LIKE', Auth::user()->id)
+                ->update(['total_price' => 0]);
+        }
 
         return redirect()->action('CartsController@index');
 
@@ -232,6 +241,7 @@ class CartsController extends Controller
         $user_id = Auth::user()->id;
         $cart = DB::table('carts')
             ->where('user_id','LIKE', $user_id)
+            ->select('id')
             ->get();
 
 //        If the user has no cart yet
@@ -241,28 +251,33 @@ class CartsController extends Controller
             $cart->courier_id = null;
             $cart->total_price = 0;
             $cart->save();
+
+            $cart_id = $cart->id;
+        } else {
+            $cart_id = $cart[0]->id;
         }
 
 //        Find user's flower
         $cart_item = DB::table('cart_items')
             ->where([
-                ['cart_id', '=', $cart->first()->id],
+                ['cart_id', '=', $cart_id],
                 ['flower_id', '=', $id]
             ])->get();
 
 //        If the flower that wanted to be added does not exist yet
         if ($cart_item == '[]') {
             $cart_item = new Cart_item();
-            $cart_item->cart_id = $cart->first()->id;
+            $cart_item->cart_id = $cart_id;
             $cart_item->flower_id = $id;
             $cart_item->quantity = 1;
             $cart_item->save();
         } else {
 //            If it exist update the quantity
-            $updated_quantity = $cart_item->first()->quantity + 1;
+            $cart_item_quantity = $cart_item[0]->quantity;
+            $updated_quantity = $cart_item_quantity + 1;
             DB::table('cart_items')
                 ->where([
-                    ['cart_id', '=', $cart->first()->id],
+                    ['cart_id', '=', $cart_id],
                     ['flower_id', '=', $id]
                 ])->update(['quantity' => $updated_quantity]);
         }
@@ -270,7 +285,7 @@ class CartsController extends Controller
 //        Calculate total price
         $total = DB::table('cart_items')
             ->join('flowers','cart_items.flower_id', '=', 'flowers.id')
-            ->where('cart_id','=', $cart->first()->id)
+            ->where('cart_id','=', $cart_id)
             ->sum(DB::raw('price * quantity'));
 
 //        Update total price
