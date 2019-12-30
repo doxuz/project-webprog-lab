@@ -56,7 +56,7 @@ class RegisterController extends Controller
             'phone' => ['required', 'digits_between:8,12'],
             'gender' => ['required'],
             'address' => ['required', 'min:10'],
-            'image' => ['required', 'image', 'mimes:jpeg,png,jpg'],
+            'image' => ['required', 'mimes:jpeg,png,jpg'],
         ]);
     }
 

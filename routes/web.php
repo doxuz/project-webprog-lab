@@ -11,9 +11,11 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Route::get('/', function () {
+//    return view('welcome');
+//});
+
+Route::get('/', 'FlowersController@index');
 
 Auth::routes();
 
@@ -30,3 +32,71 @@ Route::get('/update/{id}','CartsController@update');
 Route::get('/cart',"CartsController@index");
 
 Route::delete('/delete/{id}',"CartsController@destroy");
+
+Route::get('/checkout/{id}',"CartsController@checkout");
+
+
+
+Route::get('/manageFlower', 'FlowersController@manageFlowerIndex');
+
+Route::get('/searchManage',"FlowersController@searchManage");
+
+Route::get('/insertFlower',"FlowersController@create");
+
+Route::post('/createFlower',"FlowersController@store");
+
+Route::delete('/deleteFlower/{id}',"FlowersController@destroy");
+
+Route::get('/editFlower/{id}','FlowersController@edit');
+
+Route::put('/updateFlower/{id}','FlowersController@update');
+
+
+
+Route::get('/manageFlowerTypes', 'FlowerTypesController@index');
+
+Route::get('/searchType',"FlowerTypesController@search");
+
+Route::delete('/deleteFlowerType/{id}',"FlowerTypesController@destroy");
+
+Route::get('/insertFlowerType',"FlowerTypesController@create");
+
+Route::post('/createFlowerType',"FlowerTypesController@store");
+
+Route::get('/editFlowerType/{id}','FlowerTypesController@edit');
+
+Route::put('/updateFlowerType/{id}','FlowerTypesController@update');
+
+
+
+Route::get('/manageCouriers', 'CouriersController@index');
+
+Route::get('/searchCourier',"CouriersController@search");
+
+Route::delete('/deleteCourier/{id}',"CouriersController@destroy");
+
+Route::get('/insertCourier',"CouriersController@create");
+
+Route::post('/createCourier',"CouriersController@store");
+
+Route::get('/editCourier/{id}','CouriersController@edit');
+
+Route::put('/updateCourier/{id}','CouriersController@update');
+
+
+
+Route::get('/profile',"UsersController@show");
+
+Route::put('/updateProfile/{id}','UsersController@update');
+
+Route::get('/manageUsers', 'UsersController@index');
+
+Route::delete('/deleteUser/{id}',"UsersController@destroy");
+
+Route::get('/editUser/{id}','UsersController@edit');
+
+Route::put('/updateUser/{id}','UsersController@adminUpdate');
+
+
+
+Route::get('/history', 'CartHistoriesController@index');

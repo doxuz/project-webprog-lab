@@ -37,6 +37,41 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="/cart">{{ __('Cart') }}</a>
                             </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="/profile">{{ __('Profile') }}</a>
+                            </li>
+
+                            @if(Auth::user()->role == 'admin')
+                                <li class="nav-item dropdown">
+                                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                        Admin Menu <span class="caret"></span>
+                                    </a>
+
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+                                        <a class="dropdown-item" href="/manageFlower">
+                                            {{ __('Manage Flowers') }}
+                                        </a>
+
+                                        <a class="dropdown-item" href="/manageFlowerTypes">
+                                            {{ __('Manage Flower Types') }}
+                                        </a>
+
+                                        <a class="dropdown-item" href="/manageCouriers">
+                                            {{ __('Manage Couriers') }}
+                                        </a>
+
+                                        <a class="dropdown-item" href="/manageUsers">
+                                            {{ __('Manage Users') }}
+                                        </a>
+
+                                        <a class="dropdown-item" href="/history">
+                                            {{ __('Transaction History') }}
+                                        </a>
+
+                                    </div>
+                            @endif
                         @endauth
                     </ul>
 
@@ -44,7 +79,7 @@
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
                         <li class="nav-item">
-                            <label for="date" >{!! $date = \Carbon\Carbon::now(); !!}</label>
+                            <label for="date" >{!! $date = now(); !!}</label>
                         </li>
                         @guest
                             <li class="nav-item">

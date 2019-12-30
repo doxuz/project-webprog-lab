@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Cart;
+use App\Cart_history;
 use App\Cart_item;
+use App\Cart_item_history;
 use App\Courier;
 use App\Flower;
 use Illuminate\Http\Request;
@@ -13,6 +15,17 @@ use Illuminate\Support\Facades\Validator;
 
 class CartsController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -119,6 +132,10 @@ class CartsController extends Controller
                 ['flower_id', '=', $id]
             ])->get();
 
+//        return 'cart->id = '.$cart->id.'|| cart->first()->id = '.$cart->first()->id;
+
+//        return $cart->first()->id;
+
 //        If the flower that wanted to be added does not exist yet
         if ($cart_item == '[]') {
             $cart_item = new Cart_item();
@@ -126,6 +143,7 @@ class CartsController extends Controller
             $cart_item->flower_id = $id;
             $cart_item->quantity = $request->quantity;
             $cart_item->save();
+
         } else {
 //            If it exist update the quantity
             $updated_quantity = $cart_item->first()->quantity + $request->quantity;
@@ -262,4 +280,34 @@ class CartsController extends Controller
 
         return redirect('/home');
     }
+
+//    Checkout controller
+    public function checkout(Request $request, $id)
+    {
+        $cart = Cart::find($id);
+        $cart->courier_id = $request->courier;
+        $cart->save();
+
+        $cart_history = new Cart_history();
+        $cart_history->date = now();
+        $cart_history->user_id = $cart->user_id;
+        $cart_history->courier_id = $cart->courier_id;
+        $cart_history->total_price = $cart->total_price;
+        $cart_history->save();
+
+        $cart_items = Cart_item::where('cart_id', $id)->get();
+        foreach ($cart_items as $cart_item) {
+            $cart_item_history = new Cart_item_history();
+            $cart_item_history->cart_history_id = $cart_history->id;
+            $cart_item_history->flower_id = $cart_item->flower_id;
+            $cart_item_history->quantity = $cart_item->quantity;
+            $cart_item_history->save();
+        }
+
+        Cart_item::where('cart_id', $id)->get()->each->delete();
+        $cart->delete();
+
+        return redirect('/home');
+    }
+
 }
