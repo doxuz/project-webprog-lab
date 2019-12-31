@@ -16,6 +16,7 @@ class CouriersController extends Controller
      */
     public function __construct()
     {
+//        Verify only admin can access
         $this->middleware('auth');
         $this->middleware('admin');
     }

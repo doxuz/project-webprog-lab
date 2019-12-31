@@ -17,7 +17,10 @@ class UsersController extends Controller
      */
     public function __construct()
     {
+        // Verify only admin and member can access
         $this->middleware('auth');
+
+        // Verify only admin can access
         $this->middleware('admin')->only(['index','edit','adminUpdate','destroy']);
     }
 
@@ -28,6 +31,7 @@ class UsersController extends Controller
      */
     public function index()
     {
+//        Index for manage users page
         $users = DB::table('users')->paginate(10);
         return view('manageUsers', compact('users'));
     }
@@ -61,6 +65,7 @@ class UsersController extends Controller
      */
     public function show()
     {
+//        Index for profile page
         $user = User::find(Auth::user()->id);
         return view('profile', compact('user'));
     }
@@ -116,6 +121,7 @@ class UsersController extends Controller
         return redirect()->action('UsersController@show');
     }
 
+//    Update from manage users page
     public function adminUpdate(Request $request, $id)
     {
         $validation = Validator::make($request->all(), [

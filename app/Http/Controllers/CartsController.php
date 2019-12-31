@@ -22,6 +22,7 @@ class CartsController extends Controller
      */
     public function __construct()
     {
+//        Verify only admin or member can access
         $this->middleware('auth');
     }
 
@@ -299,6 +300,7 @@ class CartsController extends Controller
 //    Checkout controller
     public function checkout(Request $request, $id)
     {
+//        Copy cart data to cart history
         $cart = Cart::find($id);
         $cart->courier_id = $request->courier;
         $cart->save();
@@ -319,6 +321,7 @@ class CartsController extends Controller
             $cart_item_history->save();
         }
 
+//        Delete cart that has been checked out
         Cart_item::where('cart_id', $id)->get()->each->delete();
         $cart->delete();
 

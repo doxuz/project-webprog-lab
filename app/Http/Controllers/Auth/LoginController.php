@@ -48,6 +48,9 @@ class LoginController extends Controller
      */
     protected function sendLoginResponse(Request $request)
     {
+
+//        SET COOKIES TO SAVE EMAIL AND PASSWORD FOR 1 HOUR
+
         $customRememberMeTimeInMinutes = 60;
         $rememberTokenCookieKey = Auth::getRecallerName();
         Cookie::queue($rememberTokenCookieKey, Cookie::get($rememberTokenCookieKey), $customRememberMeTimeInMinutes);

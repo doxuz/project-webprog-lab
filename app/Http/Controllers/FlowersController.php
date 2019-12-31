@@ -18,7 +18,10 @@ class FlowersController extends Controller
      */
     public function __construct()
     {
+        // Verify only admin and member can access
         $this->middleware('auth')->except(['index','search','show']);
+
+        // Verify only admin can access
         $this->middleware('admin')->only(['manageFlowerIndex','searchManage','create','store','edit','update','destroy']);
     }
 
@@ -170,12 +173,14 @@ class FlowersController extends Controller
         return view('home', compact('flowers'));
     }
 
+//    MANAGE FLOWER INDEX
     public function manageFlowerIndex()
     {
         $flowers = DB::table('flowers')->paginate(10);
         return view('manageFlowers', compact('flowers'));
     }
 
+//    MANAGE FLOWER SEARCH
     public function searchManage(Request $request)
     {
         $flowers = DB::table('flowers')

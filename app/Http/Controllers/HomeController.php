@@ -14,6 +14,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
+        // Verify only admin and member can access
         $this->middleware('auth');
     }
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 29, 2019 at 08:04 PM
+-- Generation Time: Dec 31, 2019 at 09:24 AM
 -- Server version: 10.4.10-MariaDB
 -- PHP Version: 7.1.33
 
@@ -42,7 +42,7 @@ CREATE TABLE `carts` (
 --
 
 INSERT INTO `carts` (`id`, `user_id`, `courier_id`, `total_price`, `created_at`, `updated_at`) VALUES
-(2, 1, NULL, 10000, '2019-12-29 09:06:45', '2019-12-29 09:06:45');
+(25, 11, NULL, 65000, '2019-12-31 01:22:22', '2019-12-31 01:22:22');
 
 -- --------------------------------------------------------
 
@@ -59,6 +59,14 @@ CREATE TABLE `cart_histories` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `cart_histories`
+--
+
+INSERT INTO `cart_histories` (`id`, `date`, `user_id`, `courier_id`, `total_price`, `created_at`, `updated_at`) VALUES
+(11, '2019-12-31 08:09:15', 11, 5, 80000, '2019-12-31 01:09:15', '2019-12-31 01:09:15'),
+(12, '2019-12-31 08:20:24', 14, 6, 180000, '2019-12-31 01:20:24', '2019-12-31 01:20:24');
 
 -- --------------------------------------------------------
 
@@ -80,7 +88,9 @@ CREATE TABLE `cart_items` (
 --
 
 INSERT INTO `cart_items` (`id`, `cart_id`, `flower_id`, `quantity`, `created_at`, `updated_at`) VALUES
-(6, 2, 3, 2, '2019-12-29 09:10:01', '2019-12-29 09:10:01');
+(11, 25, 19, 1, '2019-12-31 01:22:22', '2019-12-31 01:22:22'),
+(12, 25, 20, 1, '2019-12-31 01:22:24', '2019-12-31 01:22:24'),
+(13, 25, 21, 1, '2019-12-31 01:22:25', '2019-12-31 01:22:25');
 
 -- --------------------------------------------------------
 
@@ -96,6 +106,19 @@ CREATE TABLE `cart_items_histories` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `cart_items_histories`
+--
+
+INSERT INTO `cart_items_histories` (`id`, `cart_history_id`, `flower_id`, `quantity`, `created_at`, `updated_at`) VALUES
+(1, 11, 20, 2, '2019-12-31 01:09:15', '2019-12-31 01:09:15'),
+(2, 11, 21, 1, '2019-12-31 01:09:15', '2019-12-31 01:09:15'),
+(3, 11, 19, 1, '2019-12-31 01:09:15', '2019-12-31 01:09:15'),
+(4, 12, 42, 1, '2019-12-31 01:20:24', '2019-12-31 01:20:24'),
+(5, 12, 24, 1, '2019-12-31 01:20:24', '2019-12-31 01:20:24'),
+(6, 12, 27, 1, '2019-12-31 01:20:24', '2019-12-31 01:20:24'),
+(7, 12, 39, 3, '2019-12-31 01:20:24', '2019-12-31 01:20:24');
 
 -- --------------------------------------------------------
 
@@ -116,8 +139,9 @@ CREATE TABLE `couriers` (
 --
 
 INSERT INTO `couriers` (`id`, `name`, `cost`, `created_at`, `updated_at`) VALUES
-(1, 'JNE', 9000, NULL, NULL),
-(2, 'Wahana', 5000, NULL, NULL);
+(5, 'JNE', 9000, '2019-12-31 01:06:01', '2019-12-31 01:06:01'),
+(6, 'Wahana', 5000, '2019-12-31 01:06:10', '2019-12-31 01:06:10'),
+(7, 'J&T', 8000, '2019-12-31 01:06:19', '2019-12-31 01:06:19');
 
 -- --------------------------------------------------------
 
@@ -142,22 +166,30 @@ CREATE TABLE `flowers` (
 --
 
 INSERT INTO `flowers` (`id`, `name`, `flower_type_id`, `price`, `description`, `stock`, `flower_pic`, `created_at`, `updated_at`) VALUES
-(1, 'Red Rose 1', 1, 5000, 'its red and its dangerous *wink*', 1, 'uploads/Red_rose.jpg', NULL, '2019-12-29 09:55:44'),
-(2, 'Yellow Lily 1', 2, 3000, 'yellow like banana minion hehe', 10, 'uploads/yellow_lily.jpg', NULL, '2019-12-29 12:02:10'),
-(3, 'Red Rose 2', 1, 5000, 'its red and its dangerous *wink*', 1, 'uploads/Red_rose.jpg', NULL, '2019-12-29 10:23:23'),
-(4, 'Yellow Lily 2', 2, 3000, 'yellow like banana minion hehe', 3, 'uploads/yellow_lily.jpg', NULL, '2019-12-29 10:27:08'),
-(5, 'Red Rose 3', 1, 5000, 'its red and its dangerous *wink*', 5, 'uploads/Red_rose.jpg', NULL, NULL),
-(6, 'Yellow Lily 3', 2, 3000, 'yellow like banana minion hehe', 10, 'uploads/yellow_lily.jpg', NULL, NULL),
-(7, 'Red Rose 4', 1, 5000, 'its red and its dangerous *wink*', 5, 'uploads/Red_rose.jpg', NULL, NULL),
-(8, 'Yellow Lily 4', 2, 3000, 'yellow like banana minion hehe', 6, 'uploads/yellow_lily.jpg', NULL, '2019-12-29 11:52:01'),
-(9, 'Red Rose 5', 1, 5000, 'its red and its dangerous *wink*', 5, 'uploads/Red_rose.jpg', NULL, NULL),
-(10, 'Yellow Lily 5', 2, 3000, 'yellow like banana minion hehe', 3, 'uploads/yellow_lily.jpg', NULL, '2019-12-29 11:57:47'),
-(11, 'Red Rose 6', 1, 5000, 'its red and its dangerous *wink*', 5, 'uploads/Red_rose.jpg', NULL, '2019-12-29 11:59:41'),
-(12, 'Yellow Lily 6', 2, 3000, 'yellow like banana minion hehe', 10, 'uploads/yellow_lily.jpg', NULL, NULL),
-(13, 'Red Rose 7', 1, 5000, 'its red and its dangerous *wink*', 5, 'uploads/Red_rose.jpg', NULL, NULL),
-(14, 'Yellow Lily 7', 2, 3000, 'yellow like banana minion hehe', 10, 'uploads/yellow_lily.jpg', NULL, NULL),
-(15, 'Red Rose 8', 1, 5000, 'its red and its dangerous *wink*', 5, 'uploads/Red_rose.jpg', NULL, NULL),
-(16, 'Yellow Lily 8', 2, 3000, 'yellow like banana minion hehe', 10, 'uploads/yellow_lily.jpg', NULL, NULL);
+(19, 'Rose 1', 5, 20000, 'A flower with crimson red dress.', 8, 'uploads\\Red_rose.jpg', '2019-12-31 00:54:48', '2019-12-31 01:22:22'),
+(20, 'Lily 1', 6, 15000, 'Its me! Your favorite yellow flower!', 12, 'uploads\\yellow_lily.jpg', '2019-12-31 00:58:13', '2019-12-31 01:22:24'),
+(21, 'Iris 1', 8, 30000, 'Once in a blue moon, I bloom.', 3, 'uploads\\iris.jpg', '2019-12-31 00:58:40', '2019-12-31 01:22:25'),
+(22, 'Rose 2', 5, 20000, 'A flower with crimson red dress.', 10, 'uploads\\Red_rose.jpg', '2019-12-31 00:54:48', '2019-12-31 00:54:48'),
+(23, 'Lily 2', 6, 15000, 'Its me! Your favorite yellow flower!', 15, 'uploads\\yellow_lily.jpg', '2019-12-31 00:58:13', '2019-12-31 00:58:13'),
+(24, 'Iris 2', 8, 30000, 'Once in a blue moon, I bloom.', 4, 'uploads\\iris.jpg', '2019-12-31 00:58:40', '2019-12-31 01:19:48'),
+(25, 'Rose 3', 5, 20000, 'A flower with crimson red dress.', 10, 'uploads\\Red_rose.jpg', '2019-12-31 00:54:48', '2019-12-31 00:54:48'),
+(26, 'Lily 3', 6, 15000, 'Its me! Your favorite yellow flower!', 15, 'uploads\\yellow_lily.jpg', '2019-12-31 00:58:13', '2019-12-31 00:58:13'),
+(27, 'Iris 3', 8, 30000, 'Once in a blue moon, I bloom.', 4, 'uploads\\iris.jpg', '2019-12-31 00:58:40', '2019-12-31 01:19:51'),
+(28, 'Rose 4', 5, 20000, 'A flower with crimson red dress.', 10, 'uploads\\Red_rose.jpg', '2019-12-31 00:54:48', '2019-12-31 00:54:48'),
+(29, 'Lily 4', 6, 15000, 'Its me! Your favorite yellow flower!', 15, 'uploads\\yellow_lily.jpg', '2019-12-31 00:58:13', '2019-12-31 00:58:13'),
+(30, 'Iris 4', 8, 30000, 'Once in a blue moon, I bloom.', 5, 'uploads\\iris.jpg', '2019-12-31 00:58:40', '2019-12-31 00:58:40'),
+(31, 'Rose 5', 5, 20000, 'A flower with crimson red dress.', 10, 'uploads\\Red_rose.jpg', '2019-12-31 00:54:48', '2019-12-31 00:54:48'),
+(32, 'Lily 5', 6, 15000, 'Its me! Your favorite yellow flower!', 15, 'uploads\\yellow_lily.jpg', '2019-12-31 00:58:13', '2019-12-31 00:58:13'),
+(33, 'Iris 5', 8, 30000, 'Once in a blue moon, I bloom.', 5, 'uploads\\iris.jpg', '2019-12-31 00:58:40', '2019-12-31 00:58:40'),
+(34, 'Rose 6', 5, 20000, 'A flower with crimson red dress.', 10, 'uploads\\Red_rose.jpg', '2019-12-31 00:54:48', '2019-12-31 00:54:48'),
+(35, 'Lily 6', 6, 15000, 'Its me! Your favorite yellow flower!', 15, 'uploads\\yellow_lily.jpg', '2019-12-31 00:58:13', '2019-12-31 00:58:13'),
+(36, 'Iris 6', 8, 30000, 'Once in a blue moon, I bloom.', 5, 'uploads\\iris.jpg', '2019-12-31 00:58:40', '2019-12-31 00:58:40'),
+(37, 'Rose 7', 5, 20000, 'A flower with crimson red dress.', 10, 'uploads\\Red_rose.jpg', '2019-12-31 00:54:48', '2019-12-31 00:54:48'),
+(38, 'Lily 7', 6, 15000, 'Its me! Your favorite yellow flower!', 15, 'uploads\\yellow_lily.jpg', '2019-12-31 00:58:13', '2019-12-31 00:58:13'),
+(39, 'Iris 7', 8, 30000, 'Once in a blue moon, I bloom.', 2, 'uploads\\iris.jpg', '2019-12-31 00:58:40', '2019-12-31 01:20:15'),
+(40, 'Rose 8', 5, 20000, 'A flower with crimson red dress.', 10, 'uploads\\Red_rose.jpg', '2019-12-31 00:54:48', '2019-12-31 00:54:48'),
+(41, 'Lily 8', 6, 15000, 'Its me! Your favorite yellow flower!', 15, 'uploads\\yellow_lily.jpg', '2019-12-31 00:58:13', '2019-12-31 00:58:13'),
+(42, 'Iris 8', 8, 30000, 'Once in a blue moon, I bloom.', 4, 'uploads\\iris.jpg', '2019-12-31 00:58:40', '2019-12-31 01:19:40');
 
 -- --------------------------------------------------------
 
@@ -177,8 +209,9 @@ CREATE TABLE `flower_types` (
 --
 
 INSERT INTO `flower_types` (`id`, `name`, `created_at`, `updated_at`) VALUES
-(1, 'rose', NULL, NULL),
-(2, 'lily', NULL, NULL);
+(5, 'Rose', '2019-12-31 00:50:49', '2019-12-31 00:51:44'),
+(6, 'Lily', '2019-12-31 00:50:59', '2019-12-31 00:50:59'),
+(8, 'Iris', '2019-12-31 00:51:55', '2019-12-31 00:51:55');
 
 -- --------------------------------------------------------
 
@@ -246,7 +279,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `role`, `email`, `name`, `password`, `phone`, `gender`, `address`, `profile_pic`, `email_verified_at`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'member', 'a@a', 'aa', '$2y$10$qYU9sBfo/UbcuwKw.FBIL.UJxWqQOJd/eZL1Nr1UCLFmthABcb5I.', '12345678', 'male', 'aaaaaaaaaaaaaaaaaaaaaaaaaaa', 'uploads\\Red_rose.jpg', NULL, NULL, '2019-12-29 07:19:11', '2019-12-29 07:19:11');
+(11, 'admin', 'admin@example.com', 'Admin', '$2y$10$M4yQpTNusGgHQFMfR8fxLenagqMsE5Ipqs7hhgONg3luy/YG.SDTW', '12345678', 'male', 'New Bahamas 24 Street.', 'uploads\\profile.png', NULL, 'jbfa0KPBJDTC5g0pKZiKoDh6g9wC82fd1zuWYYdBOA7r7OP84rgMPPwucpux', '2019-12-31 00:46:52', '2019-12-31 01:15:04'),
+(13, 'member', 'jacob@email.com', 'Jacob', '$2y$10$D5YmzsdmZR9reGm77lg06.S1MV1yocc9xki4gqj7e7Ke2.lIAZJLm', '0812222222', 'male', 'Jacob Street 24 Dotonbori', 'uploads\\profile.png', NULL, NULL, '2019-12-31 01:18:20', '2019-12-31 01:18:20'),
+(14, 'member', 'jayz@email.com', 'Jayz', '$2y$10$sv1hrufzqm8aQJosCNJ4euVbv74.UmDwsCZItY88//nKWYl8cRTPa', '12312123213', 'male', 'New Kids, California, USA', 'uploads\\profile.png', NULL, NULL, '2019-12-31 01:19:28', '2019-12-31 01:19:28');
 
 --
 -- Indexes for dumped tables
@@ -330,43 +365,43 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `cart_histories`
 --
 ALTER TABLE `cart_histories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `cart_items_histories`
 --
 ALTER TABLE `cart_items_histories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `couriers`
 --
 ALTER TABLE `couriers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `flowers`
 --
 ALTER TABLE `flowers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `flower_types`
 --
 ALTER TABLE `flower_types`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `migrations`
@@ -378,7 +413,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Constraints for dumped tables

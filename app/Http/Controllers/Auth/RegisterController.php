@@ -49,6 +49,7 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
+//        Register validation
         return Validator::make($data, [
             'name' => ['required', 'string'],
             'email' => ['required', 'string', 'email', 'unique:users'],
@@ -68,6 +69,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+//        Save user data from register
         $file = Input::file('image');
         $filename = $file->getClientOriginalName();
         $path = $file->move('uploads', $filename);
